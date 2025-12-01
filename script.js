@@ -8,8 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const countdownElement = document.getElementById('offer-countdown');
     const offersButtonWrapper = document.getElementById('offersButton');
-    // ⭐️⭐️⭐️ تم تغيير ID الحاوية ⭐️⭐️⭐️
-    const menuGallery = document.getElementById('menu-gallery'); 
+    // ⭐️ إعادة استخدام ID عنصر قائمة شرائح Splide ⭐️
+    const splideList = document.getElementById('splide-list'); 
     
     // تعريف الألوان الافتراضية
     const OPEN_BG = 'bg-[#FFC700]';
@@ -121,50 +121,61 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ----------------------------------------------------------------------
-    // الوظيفة 3: جلب البيانات وعرض الصور (كـ معرض متدفق)
+    // الوظيفة 3: جلب البيانات وبناء معرض الصور (إعادة تفعيل Splide)
     // ----------------------------------------------------------------------
-    const fetchAndDisplayGallery = async () => {
-        // نتحقق من وجود الحاوية الجديدة
-        if (!menuGallery) return;
+    const fetchAndInitCarousel = async () => {
+        if (typeof Splide === 'undefined' || !splideList) return;
 
         try {
             // جلب البيانات من ملف menu.json
             const response = await fetch('menu.json');
             if (!response.ok) {
-                menuGallery.innerHTML = '<div class="text-center text-red-400 p-4">⚠️ فشل تحميل قائمة الطعام (تأكد من وجود ملف menu.json).</div>';
+                splideList.innerHTML = '<li class="splide__slide text-center text-red-400 p-4">⚠️ فشل تحميل قائمة الطعام (تأكد من وجود ملف menu.json).</li>';
                 console.error("Failed to fetch menu data:", response.statusText);
                 return;
             }
             const data = await response.json();
             const menuItems = data.menuItems || [];
 
-            menuGallery.innerHTML = ''; 
+            splideList.innerHTML = ''; 
 
             if (menuItems.length === 0) {
-                 menuGallery.innerHTML = '<div class="text-center text-gray-400 p-4">لا توجد أطباق لعرضها حالياً في ملف menu.json.</div>';
+                 splideList.innerHTML = '<li class="splide__slide text-center text-gray-400 p-4">لا توجد أطباق لعرضها حالياً في ملف menu.json.</li>';
                  return;
             }
 
-            // بناء عناصر المعرض ديناميكياً
+            // بناء شرائح Splide ديناميكياً
             menuItems.forEach(item => {
-                const galleryItem = document.createElement('div');
-                // تنسيقات بسيطة لكل صورة مع حواف وظل
-                galleryItem.className = 'rounded-xl overflow-hidden shadow-2xl relative border border-white/10 group bg-black/50'; 
+                const slide = document.createElement('li');
+                slide.className = 'splide__slide rounded-xl overflow-hidden shadow-2xl relative bg-black/50'; 
                 
-                galleryItem.innerHTML = `
-                    <img src="${item.imagePath}" alt="${item.title}" class="w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]">
-                    
-                    <div class="absolute bottom-0 w-full bg-black/60 text-white p-2 text-center font-bold text-lg">
-                        ${item.title}
-                    </div>
+                // ⭐️⭐️⭐️ إزالة h-48 وأي خاصية object-XXX لضمان التكيف التلقائي ⭐️⭐️⭐️
+                slide.innerHTML = `
+                    <img src="${item.imagePath}" alt="${item.title}" class="w-full transition-transform duration-500 hover:scale-[1.05]">
+                    <div class="absolute bottom-0 w-full bg-black/60 text-white p-2 text-center font-bold">${item.title}</div>
                 `;
-                menuGallery.appendChild(galleryItem);
+                splideList.appendChild(slide);
             });
 
+            // تفعيل Splide بعد بناء الشرائح
+            new Splide('#image-carousel', {
+                type: 'loop',        
+                perPage: 1,          
+                focus: 'center',     
+                gap: '1rem',         
+                drag: true,          
+                // ⭐️ تفعيل الأسهم (لتقليب يمين ويسار) ⭐️
+                arrows: true,       
+                pagination: true,    
+                direction: 'rtl',    
+                autoplay: true,      
+                interval: 4000,      
+            }).mount();
+
         } catch (error) {
-            console.error('Error processing menu data or initializing gallery:', error);
-            if (menuGallery) {
-                menuGallery.innerHTML = '<div class="text-center text-red-400 p-4">حدث خطأ غير متوقع في عرض الصور.</div>';
+            console.error('Error processing menu data or initializing Splide:', error);
+            if (splideList) {
+                splideList.innerHTML = '<li class="splide__slide text-center text-red-400 p-4">حدث خطأ غير متوقع في عرض الصور.</li>';
             }
         }
     };
@@ -172,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // تشغيل جميع الوظائف عند تحميل الصفحة
     checkBusinessHours();
     startCountdown();
-    fetchAndDisplayGallery(); // ⭐️ تم تغيير اسم الدالة وإزالة Splide ⭐️
+    fetchAndInitCarousel(); // ⭐️ إعادة تشغيل دالة Splide ⭐️
     
 });
  
