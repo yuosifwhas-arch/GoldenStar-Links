@@ -9,6 +9,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css">
+    
     <link rel="stylesheet" href="style.css">
 
     <style>
@@ -64,8 +66,23 @@
             opacity: 0; 
             animation: fadeInSlideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
         }
+        /* ⭐️⭐️⭐️ تنسيق إضافي لـ Splide arrows (تأكد أن هذا موجود) ⭐️⭐️⭐️ */
+        .splide__arrow {
+            opacity: 0.7;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            width: 2.5rem;
+            height: 2.5rem;
+        }
+        .splide__arrow svg {
+            fill: #ffffff;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
     </style>
 
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    
     <script src="script.js" defer></script>
 </head>
 <body class="text-white flex flex-col items-center">
@@ -112,8 +129,12 @@
             <div class="w-full mb-8 animate-fade-in" style="animation-delay: 0.1s;">
                 <h2 class="text-2xl font-black text-white mb-4 text-center">أطباق مميزة 🍽️</h2>
                 
-                <div id="menu-gallery" class="flex flex-col gap-6 bg-black/20 p-4 rounded-2xl border border-white/5 shadow-inner">
+                <div id="image-carousel" class="splide bg-black/20 p-4 rounded-2xl border border-white/5 shadow-inner">
+                    <div class="splide__track">
+                        <ul id="splide-list" class="splide__list">
+                            </ul>
                     </div>
+                </div>
             </div>
             <div class="w-full flex flex-col gap-5">
                 
@@ -212,3 +233,4 @@
     </footer>
 </body>
 </html>
+ 
