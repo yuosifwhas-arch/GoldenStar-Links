@@ -1,1 +1,12 @@
-/* Custom CSS */
+/* هذا الكود مخصص لإخفاء شريط التمرير على المتصفحات المختلفة */
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* إخفاء شريط التمرير في متصفحات Webkit (Chrome, Safari, Edge) */
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none; /* إخفاء شريط التمرير في Internet Explorer و Edge القديم */
+    scrollbar-width: none; /* إخفاء شريط التمرير في Firefox */
+}
+
+/* يمكنك إضافة أي تنسيقات CSS مخصصة أخرى هنا */
