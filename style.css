@@ -1,12 +1,81 @@
-/* هذا الكود مخصص لإخفاء شريط التمرير على المتصفحات المختلفة */
+/*
+====================================
+تنسيقات مطعم النجمة الذهبية (Golden Star Links)
+====================================
+*/
 
+/* 1. التنسيقات الأساسية وتطبيق الخط (Cairo) */
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #0A0A0A; 
+    min-height: 100vh;
+    padding-bottom: 3rem;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* 2. إخفاء شريط التمرير (كما كان لديك) */
 .no-scrollbar::-webkit-scrollbar {
-    display: none; /* إخفاء شريط التمرير في متصفحات Webkit (Chrome, Safari, Edge) */
+    display: none;
 }
-
 .no-scrollbar {
-    -ms-overflow-style: none; /* إخفاء شريط التمرير في Internet Explorer و Edge القديم */
-    scrollbar-width: none; /* إخفاء شريط التمرير في Firefox */
+    -ms-overflow-style: none;
+    scrollbar-width: none;
 }
 
-/* يمكنك إضافة أي تنسيقات CSS مخصصة أخرى هنا */
+/* 3. تأثير الأزرار ثلاثية الأبعاد (3D Buttons) */
+.btn-3d {
+    transition: all 0.15s ease-out;
+}
+.btn-3d:active {
+    transform: translateY(6px);
+    border-bottom-width: 0px !important;
+}
+.btn-wrapper:active .btn-shadow {
+    opacity: 0;
+    transform: translateY(6px);
+}
+
+/* 4. تأثير النبض للشعار (محسن ليكون أكثر فخامة) */
+@keyframes pulse-glow {
+    0% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.03); } 
+    100% { opacity: 0.9; transform: scale(1); }
+}
+.animate-pulse-glow {
+    animation: pulse-glow 3s infinite;
+}
+
+/* 5. لتسهيل قراءة النص فوق الفيديو (ظل خفيف للنص) */
+.text-shadow-custom {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* 6. الرسوم المتحركة للتحميل (Fade-in-Up) */
+@keyframes fadeInSlideUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+    opacity: 0; 
+    animation: fadeInSlideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
+}
+
+/* 7. تنسيق أسهم معرض Splide (تحسين المظهر) */
+.splide__arrow {
+    opacity: 0.8; 
+    background: rgba(0, 0, 0, 0.9); 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    border-radius: 50%;
+    width: 2.8rem; 
+    height: 2.8rem;
+    transition: background-color 0.2s;
+}
+.splide__arrow:hover {
+    background: rgba(0, 0, 0, 1); 
+    opacity: 1;
+}
+.splide__arrow svg {
+    fill: #ffffff;
+    width: 1.4rem; 
+    height: 1.4rem;
+}
