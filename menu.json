@@ -3,27 +3,27 @@
         {
             "id": 1,
             "title": "برجر اللحم الكلاسيكي",
-            "imagePath": "images/classic-burger.jpg" 
+            "imagePath": "images/Slide5.JPG" 
         },
         {
             "id": 2,
             "title": "وجبة الدجاج المقرمش",
-            "imagePath": "images/crispy-chicken.jpg"
+            "imagePath": "images/Slide4.JPG"
         },
         {
             "id": 3,
             "title": "بطاطس بالجبنة الحارة",
-            "imagePath": "images/spicy-fries.jpg"
+            "imagePath": "images/Slide3.JPG"
         },
         {
             "id": 4,
             "title": "عصير الرمان الطازج",
-            "imagePath": "images/pomegranate-juice.jpg"
+            "imagePath": "images/Slide3.JPG"
         },
         {
             "id": 5,
             "title": "طبق مكسيكانو",
-            "imagePath": "images/mexican-platter.jpg"
+            "imagePath": "images/Slide5.JPG"
         }
     ]
 }
