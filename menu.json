@@ -3,27 +3,27 @@
         {
             "id": 1,
             "title": "برجر اللحم الكلاسيكي",
-            "imagePath": "images/Slide5.JPG" 
+            "imagePath": "images/Slide5.jpg" 
         },
         {
             "id": 2,
             "title": "وجبة الدجاج المقرمش",
-            "imagePath": "images/Slide4.JPG"
+            "imagePath": "images/Slide4.jpg"
         },
         {
             "id": 3,
             "title": "بطاطس بالجبنة الحارة",
-            "imagePath": "images/Slide3.JPG"
+            "imagePath": "images/Slide3.jpg"
         },
         {
             "id": 4,
             "title": "عصير الرمان الطازج",
-            "imagePath": "images/Slide3.JPG"
+            "imagePath": "images/Slide3.jpg"
         },
         {
             "id": 5,
             "title": "طبق مكسيكانو",
-            "imagePath": "images/Slide5.JPG"
+            "imagePath": "images/Slide5.jpg"
         }
     ]
 }
