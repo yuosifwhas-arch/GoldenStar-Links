@@ -72,7 +72,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------------------------
     const startCountdown = () => {
         
-        // التاريخ: 4 ديسمبر 2025، الساعة 23:59:59 ليلاً
+        // التاريخ: 4 ديسمبر 2025، الساعة 23:59:59 ليلاً (صيغة موثوقة)
+        // (السنة, رقم الشهر -يبدأ من 0-, اليوم, الساعة 24H, الدقيقة, الثانية)
         const offerEndDate = new Date(2025, 11, 4, 23, 59, 59).getTime(); 
 
         if (isNaN(offerEndDate) || offerEndDate < new Date().getTime()) {
@@ -118,19 +119,20 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ----------------------------------------------------------------------
-    // ⭐️⭐️⭐️ الوظيفة 3: تفعيل معرض الصور (Splide JS Initialization) ⭐️⭐️⭐️
+    // الوظيفة 3: تفعيل معرض الصور (Splide JS Initialization)
     // ----------------------------------------------------------------------
     const initImageCarousel = () => {
+        // فحص للتأكد من أن مكتبة Splide تم تحميلها بنجاح قبل التفعيل
         if (typeof Splide !== 'undefined') {
             new Splide('#image-carousel', {
-                type: 'loop',        // لجعل التقليب مستمراً (يعود من البداية بعد النهاية)
-                perPage: 1,          // لعرض صورة واحدة في كل مرة
-                focus: 'center',     // لتركيز الشريحة في المنتصف
-                gap: '1rem',         // مسافة بين الصور
-                drag: true,          // تفعيل السحب باللمس أو الماوس
-                arrows: false,       // إخفاء أزرار الأسهم
-                pagination: true,    // إظهار النقاط في الأسفل
-                direction: 'rtl',    // دعم اللغة العربية (من اليمين لليسار)
+                type: 'loop',        // تكرار الحلقات
+                perPage: 1,          // صورة واحدة لكل شريحة
+                focus: 'center',     
+                gap: '1rem',         
+                drag: true,          // تفعيل السحب
+                arrows: false,       // إخفاء الأسهم
+                pagination: true,    // إظهار النقاط
+                direction: 'rtl',    // دعم اللغة العربية
                 autoplay: true,      // تشغيل تلقائي
                 interval: 4000,      // تغيير الشريحة كل 4 ثوانٍ
             }).mount();
@@ -140,6 +142,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // تشغيل جميع الوظائف عند تحميل الصفحة
     checkBusinessHours();
     startCountdown();
-    initImageCarousel(); // ⭐️ تشغيل دالة المعرض ⭐️
+    initImageCarousel(); 
     
 });
