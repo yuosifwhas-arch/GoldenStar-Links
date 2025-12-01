@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ----------------------------------------------------------------------
-    // ⭐️ الوظيفة 3: جلب البيانات وبناء معرض الصور (Lazy Loading + WebP) ⭐️
+    // ⭐️ الوظيفة 3: جلب البيانات وبناء معرض الصور (تحميل مباشر - بدون كسول) ⭐️
     // ----------------------------------------------------------------------
     const fetchAndInitCarousel = async () => {
         if (typeof Splide === 'undefined' || !splideList) return;
@@ -169,21 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 const slide = document.createElement('li');
                 slide.className = 'splide__slide rounded-xl overflow-hidden shadow-2xl relative bg-black/50'; 
                 
-                // 🟢 استخدام وسم <picture> والتحميل الكسول 🟢
-                // نفترض أن مسار الصورة في menu.json هو images/dish-name.jpg
-                const baseImagePath = item.imagePath.replace(/\.(jpg|png|jpeg)$/i, '');
-
+                // ❌ إلغاء استخدام <picture> والـ lazy loading
+                // العودة لاستخدام وسم <img> العادي مع مسار الصورة المباشر من menu.json
                 slide.innerHTML = `
-                    <picture>
-                        <source data-splide-lazy="${baseImagePath}.webp" type="image/webp"> 
-                        <img 
-                            src="${baseImagePath}.jpg" 
-                            data-splide-lazy="${baseImagePath}.jpg"
-                            alt="${item.title}" 
-                            class="w-full transition-transform duration-500 hover:scale-[1.05]"
-                            loading="lazy" 
-                        >
-                    </picture>
+                    <img 
+                        src="${item.imagePath}" 
+                        alt="${item.title}" 
+                        class="w-full transition-transform duration-500 hover:scale-[1.05]"
+                    >
                     <div class="absolute bottom-0 w-full bg-black/60 text-white p-2 text-center font-bold">${item.title}</div>
                 `;
                 splideList.appendChild(slide);
@@ -201,8 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 direction: 'rtl',    
                 autoplay: true,      
                 interval: 4000,      
-                // 🟢 تفعيل التحميل الكسول لـ Splide 🟢
-                lazyLoad: 'sequential', 
+                // ❌ إلغاء التحميل الكسول
+                // lazyLoad: 'sequential', // تمت إزالته
                 height: '250px', // يفضل تثبيت الارتفاع لتجنب اهتزاز التخطيط
             }).mount();
 
@@ -220,3 +213,4 @@ document.addEventListener('DOMContentLoaded', () => {
     fetchAndInitCarousel();
     
 });
+ 
