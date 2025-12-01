@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const slide = document.createElement('li');
                 slide.className = 'splide__slide rounded-xl overflow-hidden shadow-2xl relative bg-black/50'; 
                 slide.innerHTML = `
-                    <img src="${item.imagePath}" alt="${item.title}" class="w-full h-48 object-contain transition-transform duration-500 hover:scale-[1.05]">
+                    <img src="${item.imagePath}" alt="${item.title}" class="w-full transition-transform duration-500 hover:scale-[1.05]">
                     <div class="absolute bottom-0 w-full bg-black/60 text-white p-2 text-center font-bold">${item.title}</div>
                 `;
                 splideList.appendChild(slide);
