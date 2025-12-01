@@ -1,0 +1,29 @@
+{
+    "menuItems": [
+        {
+            "id": 1,
+            "title": "برجر اللحم الكلاسيكي",
+            "imagePath": "images/classic-burger.jpg" 
+        },
+        {
+            "id": 2,
+            "title": "وجبة الدجاج المقرمش",
+            "imagePath": "images/crispy-chicken.jpg"
+        },
+        {
+            "id": 3,
+            "title": "بطاطس بالجبنة الحارة",
+            "imagePath": "images/spicy-fries.jpg"
+        },
+        {
+            "id": 4,
+            "title": "عصير الرمان الطازج",
+            "imagePath": "images/pomegranate-juice.jpg"
+        },
+        {
+            "id": 5,
+            "title": "طبق مكسيكانو",
+            "imagePath": "images/mexican-platter.jpg"
+        }
+    ]
+}
