@@ -8,7 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const countdownElement = document.getElementById('offer-countdown');
     const offersButtonWrapper = document.getElementById('offersButton');
-    const splideList = document.getElementById('splide-list'); // عنصر قائمة الشرائح الذي سيمتلئ ديناميكياً
+    // ⭐️⭐️⭐️ تم تغيير ID الحاوية ⭐️⭐️⭐️
+    const menuGallery = document.getElementById('menu-gallery'); 
     
     // تعريف الألوان الافتراضية
     const OPEN_BG = 'bg-[#FFC700]';
@@ -34,10 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
         let isClosed;
         
         if (CLOSE_HOUR < OPEN_HOUR) { 
-            // حالة العمل من يوم لآخر
             isClosed = currentHour >= CLOSE_HOUR && currentHour < OPEN_HOUR;
         } else {
-            // حالة العمل في نفس اليوم
             isClosed = currentHour < OPEN_HOUR || currentHour >= CLOSE_HOUR;
         }
 
@@ -63,8 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
              // فتح الزر وإضافة تأثير النبض المؤقت
              if (orderButtonWrapper) {
-                // يمكنك وضع رابط الطلب الحقيقي هنا
-                // orderButtonWrapper.setAttribute('href', 'https://your-ordering-link.com'); 
                 orderButtonWrapper.classList.add('animate-pulse');
                 setTimeout(() => {
                     orderButtonWrapper.classList.remove('animate-pulse');
@@ -124,58 +121,50 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ----------------------------------------------------------------------
-    // الوظيفة 3: جلب البيانات وبناء معرض الصور (الحل الديناميكي عبر JSON)
+    // الوظيفة 3: جلب البيانات وعرض الصور (كـ معرض متدفق)
     // ----------------------------------------------------------------------
-    const fetchAndInitCarousel = async () => {
-        if (typeof Splide === 'undefined' || !splideList) return;
+    const fetchAndDisplayGallery = async () => {
+        // نتحقق من وجود الحاوية الجديدة
+        if (!menuGallery) return;
 
         try {
             // جلب البيانات من ملف menu.json
             const response = await fetch('menu.json');
             if (!response.ok) {
-                splideList.innerHTML = '<li class="splide__slide text-center text-red-400 p-4">⚠️ فشل تحميل قائمة الطعام (تأكد من وجود ملف menu.json).</li>';
+                menuGallery.innerHTML = '<div class="text-center text-red-400 p-4">⚠️ فشل تحميل قائمة الطعام (تأكد من وجود ملف menu.json).</div>';
                 console.error("Failed to fetch menu data:", response.statusText);
                 return;
             }
             const data = await response.json();
             const menuItems = data.menuItems || [];
 
-            splideList.innerHTML = ''; 
+            menuGallery.innerHTML = ''; 
 
             if (menuItems.length === 0) {
-                 splideList.innerHTML = '<li class="splide__slide text-center text-gray-400 p-4">لا توجد أطباق لعرضها حالياً في ملف menu.json.</li>';
+                 menuGallery.innerHTML = '<div class="text-center text-gray-400 p-4">لا توجد أطباق لعرضها حالياً في ملف menu.json.</div>';
                  return;
             }
 
-            // بناء شرائح Splide ديناميكياً
+            // بناء عناصر المعرض ديناميكياً
             menuItems.forEach(item => {
-                const slide = document.createElement('li');
-                slide.className = 'splide__slide rounded-xl overflow-hidden shadow-2xl relative bg-black/50'; 
-                slide.innerHTML = `
-                    <img src="${item.imagePath}" alt="${item.title}" class="w-full transition-transform duration-500 hover:scale-[1.05]">
-                    <div class="absolute bottom-0 w-full bg-black/60 text-white p-2 text-center font-bold">${item.title}</div>
+                const galleryItem = document.createElement('div');
+                // تنسيقات بسيطة لكل صورة مع حواف وظل
+                galleryItem.className = 'rounded-xl overflow-hidden shadow-2xl relative border border-white/10 group bg-black/50'; 
+                
+                galleryItem.innerHTML = `
+                    <img src="${item.imagePath}" alt="${item.title}" class="w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]">
+                    
+                    <div class="absolute bottom-0 w-full bg-black/60 text-white p-2 text-center font-bold text-lg">
+                        ${item.title}
+                    </div>
                 `;
-                splideList.appendChild(slide);
+                menuGallery.appendChild(galleryItem);
             });
 
-            // تفعيل Splide بعد بناء الشرائح
-            new Splide('#image-carousel', {
-                type: 'loop',        
-                perPage: 1,          
-                focus: 'center',     
-                gap: '1rem',         
-                drag: true,          
-                arrows: false,       
-                pagination: true,    
-                direction: 'rtl',    
-                autoplay: true,      
-                interval: 4000,      
-            }).mount();
-
         } catch (error) {
-            console.error('Error processing menu data or initializing Splide:', error);
-            if (splideList) {
-                splideList.innerHTML = '<li class="splide__slide text-center text-red-400 p-4">حدث خطأ غير متوقع في عرض الصور.</li>';
+            console.error('Error processing menu data or initializing gallery:', error);
+            if (menuGallery) {
+                menuGallery.innerHTML = '<div class="text-center text-red-400 p-4">حدث خطأ غير متوقع في عرض الصور.</div>';
             }
         }
     };
@@ -183,6 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // تشغيل جميع الوظائف عند تحميل الصفحة
     checkBusinessHours();
     startCountdown();
-    fetchAndInitCarousel();
+    fetchAndDisplayGallery(); // ⭐️ تم تغيير اسم الدالة وإزالة Splide ⭐️
     
 });
+ 
