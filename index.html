@@ -35,8 +35,8 @@
         
         /* تأثير النبض للشعار */
         @keyframes pulse-glow {
-            0%, 100% { opacity: 0.6; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.05); }
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
         }
         .animate-pulse-glow {
             animation: pulse-glow 3s infinite;
@@ -45,6 +45,16 @@
         /* لتسهيل قراءة النص فوق الفيديو (ظل خفيف) */
         .text-shadow-custom {
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        /* الرسوم المتحركة الجديدة (Fade-in-Up) */
+        @keyframes fadeInSlideUp {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            opacity: 0; /* يبدأ مخفياً */
+            animation: fadeInSlideUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; /* منحنى احترافي */
         }
     </style>
     <script src="script.js" defer></script>
@@ -65,114 +75,117 @@
         </video>
     </div>
 
-    <main class="w-full max-w-lg px-6 pb-10 overflow-y-auto no-scrollbar z-10 flex-grow flex flex-col items-center pt-12">
+    <main class="w-full max-w-lg mx-auto overflow-y-auto no-scrollbar z-10 flex-grow flex flex-col items-center py-8">
         
-        <div class="text-center mb-10 w-full">
-            <div class="relative inline-block mb-6 group cursor-default">
-                <div class="absolute inset-0 bg-yellow-500 blur-2xl rounded-full animate-pulse-glow"></div>
+        <div class="w-full px-6 pb-10 pt-4 rounded-3xl bg-black/40 backdrop-blur-xl border border-white/5 shadow-[0_20px_50px_rgba(0,0,0,0.7)]">
+        
+            <div class="text-center mb-10 w-full animate-fade-in" style="animation-delay: 0.0s;">
+                <div class="relative inline-block mb-6 group cursor-default">
+                    <div class="absolute inset-0 bg-yellow-500 blur-2xl rounded-full animate-pulse-glow"></div>
+                    
+                    <div class="relative w-32 h-32 bg-gradient-to-br from-red-600 to-red-900 rounded-full border-[6px] border-yellow-400 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-center mx-auto overflow-hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-md">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                        </svg>
+                    </div>
+                </div>
+
+                <h1 class="text-4xl md:text-5xl font-black text-white mb-2 text-shadow-custom tracking-wide">
+                    مطعم النجمة الذهبية
+                </h1>
+                <div class="inline-block px-4 py-1.5 bg-black/60 rounded-full shadow-lg">
+                    <p class="text-yellow-100 text-lg font-bold opacity-95 leading-relaxed text-shadow-custom">
+                        طعم لا يقاوم في كل قضمة 🍔🍟
+                    </p>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-col gap-5">
                 
-                <div class="relative w-32 h-32 bg-gradient-to-br from-red-600 to-red-900 rounded-full border-[6px] border-yellow-400 shadow-[0_10px_30px_rgba(0,0,0,0.5)] flex items-center justify-center mx-auto overflow-hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="#FACC15" stroke="#FACC15" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="drop-shadow-md">
-                        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
-                    </svg>
-                </div>
+                <a href="#menu" class="group relative w-full block select-none btn-wrapper transform transition-transform hover:scale-[1.02] animate-fade-in" style="animation-delay: 0.2s;">
+                    <div class="btn-shadow absolute inset-0 rounded-2xl translate-y-[6px] bg-black/40 blur-sm rounded-b-3xl transition-transform duration-150"></div>
+                    <div class="btn-3d relative z-10 flex items-center justify-between w-full px-6 py-5 rounded-2xl border-b-[8px] border-r-[2px] border-l-[2px] border-t-[1px] bg-[#E31C25] border-[#990F16] text-white hover:bg-[#F22E36] shadow-xl">
+                        <div class="flex items-center gap-5">
+                            <div class="p-2.5 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
+                            </div>
+                            <span class="text-xl font-black tracking-wide text-shadow-custom">قائمة الطعام</span>
+                        </div>
+                        <div class="bg-white/20 p-1.5 rounded-full opacity-80 group-hover:opacity-100 transition-all rtl:rotate-180">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#order" class="group relative w-full block select-none btn-wrapper transform transition-transform hover:scale-[1.02] animate-fade-in" style="animation-delay: 0.3s;">
+                    <div class="btn-shadow absolute inset-0 rounded-2xl translate-y-[6px] bg-black/40 blur-sm rounded-b-3xl transition-transform duration-150"></div>
+                    <div class="btn-3d relative z-10 flex items-center justify-between w-full px-6 py-5 rounded-2xl border-b-[8px] border-r-[2px] border-l-[2px] border-t-[1px] bg-[#FFC700] border-[#C99B00] text-red-900 hover:bg-[#FFD700] shadow-[0_0_30px_rgba(255,199,0,0.7)]">
+                        <div class="flex items-center gap-5">
+                            <div class="p-2.5 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner text-red-900">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                            </div>
+                            <span class="text-xl font-black tracking-wide text-shadow-custom">اطلب الآن (توصيل سريع 🛵)</span>
+                        </div>
+                        <div class="absolute top-[-10px] right-2 bg-red-600 text-white text-xs font-black px-3 py-1 rounded-full transform rotate-[3deg] shadow-xl border border-white/50">
+                            متاح
+                        </div>
+                        <div class="bg-black/10 p-1.5 rounded-full opacity-80 group-hover:opacity-100 transition-all rtl:rotate-180">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#offers" class="group relative w-full block select-none btn-wrapper transform transition-transform hover:scale-[1.02] animate-fade-in" style="animation-delay: 0.4s;">
+                    <div class="btn-shadow absolute inset-0 rounded-2xl translate-y-[6px] bg-black/40 blur-sm rounded-b-3xl transition-transform duration-150"></div>
+                    <div class="btn-3d relative z-10 flex items-center justify-between w-full px-6 py-5 rounded-2xl border-b-[8px] border-r-[2px] border-l-[2px] border-t-[1px] bg-[#FF5C00] border-[#C24100] text-white hover:bg-[#FF7A33] shadow-xl">
+                        <div class="flex items-center gap-5">
+                            <div class="p-2.5 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+                            </div>
+                            <span class="text-xl font-black tracking-wide text-shadow-custom">عروض خاصة</span>
+                        </div>
+                        <div class="bg-white/20 p-1.5 rounded-full opacity-80 group-hover:opacity-100 transition-all rtl:rotate-180">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        </div>
+                    </div>
+                </a>
+
+                <a href="#delivery" class="group relative w-full block select-none btn-wrapper transform transition-transform hover:scale-[1.02] animate-fade-in" style="animation-delay: 0.5s;">
+                    <div class="btn-shadow absolute inset-0 rounded-2xl translate-y-[6px] bg-black/40 blur-sm rounded-b-3xl transition-transform duration-150"></div>
+                    <div class="btn-3d relative z-10 flex items-center justify-between w-full px-6 py-5 rounded-2xl border-b-[8px] border-r-[2px] border-l-[2px] border-t-[1px] bg-gray-800 border-black/80 text-white hover:bg-gray-700 shadow-xl">
+                        <div class="flex items-center gap-5">
+                            <div class="p-2.5 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
+                            </div>
+                            <span class="text-xl font-black tracking-wide text-shadow-custom">تطبيقات التوصيل</span>
+                        </div>
+                        <div class="bg-white/20 p-1.5 rounded-full opacity-80 group-hover:opacity-100 transition-all rtl:rotate-180">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                        </div>
+                    </div>
+                </a>
             </div>
 
-            <h1 class="text-4xl md:text-5xl font-black text-white mb-2 text-shadow-custom tracking-wide">
-                مطعم النجمة الذهبية
-            </h1>
-            <div class="inline-block px-4 py-1.5 bg-black/60 rounded-full shadow-lg">
-                <p class="text-yellow-100 text-lg font-bold opacity-95 leading-relaxed text-shadow-custom">
-                    طعم لا يقاوم في كل قضمة 🍔🍟
-                </p>
+            <div class="flex justify-center gap-6 mt-12 mb-4 animate-fade-in" style="animation-delay: 0.6s;">
+                
+                <a href="https://wa.me/96600000000" target="_blank" class="w-14 h-14 flex items-center justify-center rounded-full bg-green-500/90 hover:bg-green-600 border-2 border-green-700/50 text-white transition-all duration-300 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg shadow-green-500/30">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.01 2.01c-5.5 0-9.98 4.49-9.98 9.98s4.48 9.98 9.98 9.98 9.98-4.48 9.98-9.98-4.48-9.98-9.98-9.98zm3.98 14.88c-.14.24-.43.34-.69.25l-2.61-1.07c-.42-.17-.91-.25-1.35-.25-.97 0-1.87.27-2.63.78l-1.46.99c-.19.13-.45.13-.64 0l-1.46-.99c-.76-.51-1.66-.78-2.63-.78-.44 0-.93.08-1.35.25l-2.61 1.07c-.26.09-.55-.01-.69-.25-.14-.24-.07-.54.16-.72l2.36-1.84c.66-.52 1.48-.8 2.34-.8 1.13 0 2.22.42 3.03 1.15.81-.73 1.9-1.15 3.03-1.15 1.17 0 2.28.46 3.12 1.34l.01.01.25.26.01.01c.84.88 1.3 2.01 1.3 3.23 0 1.22-.46 2.35-1.3 3.23l-.01.01c-.84.88-1.94 1.34-3.12 1.34-1.07 0-2.09-.32-2.95-.91l-1.95-1.28c-.2-.13-.45-.14-.65 0l-1.95 1.28c-.86.59-1.88.91-2.95.91-1.22 0-2.35-.46-3.19-1.34l-.01-.01c-.84-.88-1.3-2.01-1.3-3.23 0-1.22.46-2.35 1.3-3.23l.01-.01c.84-.88 1.94-1.34 3.12-1.34 1.07 0 2.09.32 2.95.91l1.95 1.28c.2.13.45.14.65 0l1.95-1.28c.86-.59 1.88-.91 2.95-.91 1.17 0 2.28.46 3.12 1.34l.01.01.25.26.01.01c.84.88 1.3 2.01 1.3 3.23 0 1.22-.46 2.35-1.3 3.23z"/></svg>
+                </a>
+                
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border-2 border-white/20 hover:border-yellow-400 text-white hover:text-yellow-400 transition-all duration-300 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                </a>
+                
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border-2 border-white/20 hover:border-yellow-400 text-white hover:text-yellow-400 transition-all duration-300 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+                </a>
+                
+                <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-yellow-400/80 hover:bg-yellow-500 border-2 border-yellow-700/50 text-black transition-all duration-300 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg shadow-yellow-500/30">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 1 0 22 12 10 10 0 0 0 12 2zm.8 14.8c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5zm3.6-6.3a2.4 2.4 0 0 1-2.4 2.4 2.4 2.4 0 0 1-2.4-2.4 2.4 2.4 0 0 1 2.4-2.4 2.4 2.4 0 0 1 2.4 2.4zM8.4 10.5a2.4 2.4 0 0 1-2.4 2.4 2.4 2.4 0 0 1-2.4-2.4 2.4 2.4 0 0 1 2.4-2.4 2.4 2.4 0 0 1 2.4 2.4z"/></svg>
+                </a>
             </div>
+
         </div>
-
-        <div class="w-full flex flex-col gap-5">
-            
-            <a href="#menu" class="group relative w-full block select-none btn-wrapper transform transition-transform hover:scale-[1.02]">
-                <div class="btn-shadow absolute inset-0 rounded-2xl translate-y-[6px] bg-black/40 blur-sm rounded-b-3xl transition-transform duration-150"></div>
-                <div class="btn-3d relative z-10 flex items-center justify-between w-full px-6 py-5 rounded-2xl border-b-[8px] border-r-[2px] border-l-[2px] border-t-[1px] bg-[#E31C25] border-[#990F16] text-white hover:bg-[#F22E36]">
-                    <div class="flex items-center gap-5">
-                        <div class="p-2.5 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2v0a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></svg>
-                        </div>
-                        <span class="text-xl font-black tracking-wide text-shadow-custom">قائمة الطعام</span>
-                    </div>
-                    <div class="bg-white/20 p-1.5 rounded-full opacity-80 group-hover:opacity-100 transition-all rtl:rotate-180">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </div>
-                </div>
-            </a>
-
-            <a href="#order" class="group relative w-full block select-none btn-wrapper transform transition-transform hover:scale-[1.02]">
-                <div class="btn-shadow absolute inset-0 rounded-2xl translate-y-[6px] bg-black/40 blur-sm rounded-b-3xl transition-transform duration-150"></div>
-                <div class="btn-3d relative z-10 flex items-center justify-between w-full px-6 py-5 rounded-2xl border-b-[8px] border-r-[2px] border-l-[2px] border-t-[1px] bg-[#FFC700] border-[#C99B00] text-red-900 hover:bg-[#FFD700] shadow-[0_0_20px_rgba(255,199,0,0.5)]">
-                    <div class="flex items-center gap-5">
-                        <div class="p-2.5 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner text-red-900">
-                             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                        </div>
-                        <span class="text-xl font-black tracking-wide text-shadow-custom">اطلب الآن (توصيل سريع 🛵)</span>
-                    </div>
-                    <div class="absolute top-[-10px] right-2 bg-red-600 text-white text-xs font-black px-3 py-1 rounded-full transform rotate-[3deg] shadow-xl border border-white/50">
-                        متاح
-                    </div>
-                    <div class="bg-black/10 p-1.5 rounded-full opacity-80 group-hover:opacity-100 transition-all rtl:rotate-180">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </div>
-                </div>
-            </a>
-
-            <a href="#offers" class="group relative w-full block select-none btn-wrapper transform transition-transform hover:scale-[1.02]">
-                <div class="btn-shadow absolute inset-0 rounded-2xl translate-y-[6px] bg-black/40 blur-sm rounded-b-3xl transition-transform duration-150"></div>
-                <div class="btn-3d relative z-10 flex items-center justify-between w-full px-6 py-5 rounded-2xl border-b-[8px] border-r-[2px] border-l-[2px] border-t-[1px] bg-[#FF5C00] border-[#C24100] text-white hover:bg-[#FF7A33]">
-                    <div class="flex items-center gap-5">
-                        <div class="p-2.5 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" x2="5" y1="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
-                        </div>
-                        <span class="text-xl font-black tracking-wide text-shadow-custom">عروض خاصة</span>
-                    </div>
-                    <div class="bg-white/20 p-1.5 rounded-full opacity-80 group-hover:opacity-100 transition-all rtl:rotate-180">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </div>
-                </div>
-            </a>
-
-            <a href="#delivery" class="group relative w-full block select-none btn-wrapper transform transition-transform hover:scale-[1.02]">
-                <div class="btn-shadow absolute inset-0 rounded-2xl translate-y-[6px] bg-black/40 blur-sm rounded-b-3xl transition-transform duration-150"></div>
-                <div class="btn-3d relative z-10 flex items-center justify-between w-full px-6 py-5 rounded-2xl border-b-[8px] border-r-[2px] border-l-[2px] border-t-[1px] bg-gray-800 border-black/80 text-white hover:bg-gray-700">
-                    <div class="flex items-center gap-5">
-                        <div class="p-2.5 bg-black/10 rounded-xl backdrop-blur-sm shadow-inner">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></svg>
-                        </div>
-                        <span class="text-xl font-black tracking-wide text-shadow-custom">تطبيقات التوصيل</span>
-                    </div>
-                    <div class="bg-white/20 p-1.5 rounded-full opacity-80 group-hover:opacity-100 transition-all rtl:rotate-180">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="flex justify-center gap-6 mt-12 mb-8">
-            
-            <a href="https://wa.me/96600000000" target="_blank" class="w-14 h-14 flex items-center justify-center rounded-full bg-green-500/90 hover:bg-green-600 border-2 border-green-700/50 text-white transition-all duration-300 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg shadow-green-500/30">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12.01 2.01c-5.5 0-9.98 4.49-9.98 9.98s4.48 9.98 9.98 9.98 9.98-4.48 9.98-9.98-4.48-9.98-9.98-9.98zm3.98 14.88c-.14.24-.43.34-.69.25l-2.61-1.07c-.42-.17-.91-.25-1.35-.25-.97 0-1.87.27-2.63.78l-1.46.99c-.19.13-.45.13-.64 0l-1.46-.99c-.76-.51-1.66-.78-2.63-.78-.44 0-.93.08-1.35.25l-2.61 1.07c-.26.09-.55-.01-.69-.25-.14-.24-.07-.54.16-.72l2.36-1.84c.66-.52 1.48-.8 2.34-.8 1.13 0 2.22.42 3.03 1.15.81-.73 1.9-1.15 3.03-1.15 1.17 0 2.28.46 3.12 1.34l.01.01.25.26.01.01c.84.88 1.3 2.01 1.3 3.23 0 1.22-.46 2.35-1.3 3.23l-.01.01c-.84.88-1.94 1.34-3.12 1.34-1.07 0-2.09-.32-2.95-.91l-1.95-1.28c-.2-.13-.45-.14-.65 0l-1.95 1.28c-.86.59-1.88.91-2.95.91-1.22 0-2.35-.46-3.19-1.34l-.01-.01c-.84-.88-1.3-2.01-1.3-3.23 0-1.22.46-2.35 1.3-3.23l.01-.01c.84-.88 1.94-1.34 3.12-1.34 1.07 0 2.09.32 2.95.91l1.95 1.28c.2.13.45.14.65 0l1.95-1.28c.86-.59 1.88-.91 2.95-.91 1.17 0 2.28.46 3.12 1.34l.01.01.25.26.01.01c.84.88 1.3 2.01 1.3 3.23 0 1.22-.46 2.35-1.3 3.23z"/></svg>
-            </a>
-            
-            <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border-2 border-white/20 hover:border-yellow-400 text-white hover:text-yellow-400 transition-all duration-300 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
-            </a>
-            
-            <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 border-2 border-white/20 hover:border-yellow-400 text-white hover:text-yellow-400 transition-all duration-300 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
-            </a>
-            
-            <a href="#" class="w-14 h-14 flex items-center justify-center rounded-full bg-yellow-400/80 hover:bg-yellow-500 border-2 border-yellow-700/50 text-black transition-all duration-300 backdrop-blur-md cursor-pointer hover:scale-110 shadow-lg shadow-yellow-500/30">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2A10 10 0 1 0 22 12 10 10 0 0 0 12 2zm.8 14.8c-.8 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.7 1.5-1.5 1.5zm3.6-6.3a2.4 2.4 0 0 1-2.4 2.4 2.4 2.4 0 0 1-2.4-2.4 2.4 2.4 0 0 1 2.4-2.4 2.4 2.4 0 0 1 2.4 2.4zM8.4 10.5a2.4 2.4 0 0 1-2.4 2.4 2.4 2.4 0 0 1-2.4-2.4 2.4 2.4 0 0 1 2.4-2.4 2.4 2.4 0 0 1 2.4 2.4z"/></svg>
-            </a>
-        </div>
-
     </main>
     <footer class="text-center text-white/40 text-sm font-medium pt-4 pb-2 w-full max-w-lg mx-auto z-10">
         <p>© 2024 مطعم النجمة الذهبية. جميع الحقوق محفوظة.</p>
