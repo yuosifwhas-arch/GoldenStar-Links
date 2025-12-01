@@ -33,7 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let isClosed;
         
-        // التحقق مما إذا كانت الساعة الحالية بين ساعة الإغلاق و ساعة الافتتاح
         if (CLOSE_HOUR < OPEN_HOUR) { 
             isClosed = currentHour >= CLOSE_HOUR && currentHour < OPEN_HOUR;
         } else {
@@ -41,13 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         if (isClosed) {
-            // حالة الإغلاق: تغيير الزر إلى رمادي وإزالة الرابط وتوقيف التوهج
             if (orderButtonWrapper) {
                 orderButtonWrapper.removeAttribute('href');
                 orderButtonWrapper.style.cursor = 'default';
                 orderButtonWrapper.classList.remove('animate-pulse');
             }
-
             if (orderButtonText) { orderButtonText.textContent = 'المطعم مغلق حالياً 😴'; }
             if (availableBadge) {
                 availableBadge.textContent = 'مغلق';
@@ -75,20 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // الوظيفة 2: العداد التنازلي للعروض (Offer Countdown Timer)
     // ----------------------------------------------------------------------
     const startCountdown = () => {
-        // 🚨 تاريخ انتهاء العرض: 4 ديسمبر 2025، الساعة 23:59:59 (11:59 ليلاً)
-        // يمكنك تغيير هذا التاريخ في أي وقت! (Y-M-D H:M:S)
-        const offerEndDate = new Date('2025-12-04T23:59:59').getTime();
+        
+        // ⭐️⭐️⭐️ هذا هو السطر الذي تم تعديله ⭐️⭐️⭐️
+        // استخدمنا صيغة YYYY/MM/DD HH:MM:SS الموثوقة
+        const offerEndDate = new Date('2025/12/04 23:59:59').getTime(); 
 
         const updateCounter = () => {
             const now = new Date().getTime();
             const distance = offerEndDate - now;
 
-            // إذا انتهى الوقت
             if (distance < 0) {
                 clearInterval(countdownInterval);
                 if (countdownElement) {
                     countdownElement.textContent = 'انتهى العرض!';
-                    // إزالة الرابط من زر العروض لمنع النقر
                     if(offersButtonWrapper) {
                          offersButtonWrapper.removeAttribute('href');
                          offersButtonWrapper.style.cursor = 'default';
@@ -97,17 +93,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
-            // حساب الوقت المتبقي
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
-            // تهيئة الأرقام لإضافة صفر في البداية
             const formatTime = (time) => String(time).padStart(2, '0');
 
             if (countdownElement) {
-                // تحديث الـ HTML بالوقت
                 countdownElement.innerHTML = 
                     `<span class="text-red-400 font-extrabold">${days}يوم</span>` +
                     ` | ${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)} <span class="text-xs">متبقي</span>`;
