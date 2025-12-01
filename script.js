@@ -1,3 +1,20 @@
+// ======================================================================
+// ⭐️ الوظيفة 0: تسجيل عامل الخدمة (Service Worker) لدعم وضع عدم الاتصال (PWA) ⭐️
+// ======================================================================
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        // تأكد من أن المسار '/service-worker.js' صحيح
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('ServiceWorker registration successful with scope: ', registration.scope);
+            })
+            .catch(err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     
     // العناصر الأساسية للتحكم
@@ -35,8 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let isClosed;
         
         if (CLOSE_HOUR < OPEN_HOUR) { 
+            // هذا لسيناريو الإغلاق بعد منتصف الليل (مثل 2 صباحًا)
             isClosed = currentHour >= CLOSE_HOUR && currentHour < OPEN_HOUR;
         } else {
+            // هذا لسيناريو الإغلاق قبل منتصف الليل
             isClosed = currentHour < OPEN_HOUR || currentHour >= CLOSE_HOUR;
         }
 
@@ -121,7 +140,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ----------------------------------------------------------------------
-    // الوظيفة 3: جلب البيانات وبناء معرض الصور (إعادة تفعيل Splide)
+    // ⭐️ الوظيفة 3: جلب البيانات وبناء معرض الصور (Lazy Loading + WebP) ⭐️
     // ----------------------------------------------------------------------
     const fetchAndInitCarousel = async () => {
         if (typeof Splide === 'undefined' || !splideList) return;
@@ -135,7 +154,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             const data = await response.json();
-            const menuItems = data.menuItems || [];
+            // 🚨 تم افتراض أن حقل البيانات هو "menuItems" بناءً على الكود السابق 
+            const menuItems = data.menuItems || []; 
 
             splideList.innerHTML = ''; 
 
@@ -149,9 +169,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const slide = document.createElement('li');
                 slide.className = 'splide__slide rounded-xl overflow-hidden shadow-2xl relative bg-black/50'; 
                 
-                // ⭐️⭐️⭐️ إزالة h-48 وأي خاصية object-XXX لضمان التكيف التلقائي ⭐️⭐️⭐️
+                // 🟢 استخدام وسم <picture> والتحميل الكسول 🟢
+                // نفترض أن مسار الصورة في menu.json هو images/dish-name.jpg
+                const baseImagePath = item.imagePath.replace(/\.(jpg|png|jpeg)$/i, '');
+
                 slide.innerHTML = `
-                    <img src="${item.imagePath}" alt="${item.title}" class="w-full transition-transform duration-500 hover:scale-[1.05]">
+                    <picture>
+                        <source data-splide-lazy="${baseImagePath}.webp" type="image/webp"> 
+                        <img 
+                            src="${baseImagePath}.jpg" 
+                            data-splide-lazy="${baseImagePath}.jpg"
+                            alt="${item.title}" 
+                            class="w-full transition-transform duration-500 hover:scale-[1.05]"
+                            loading="lazy" 
+                        >
+                    </picture>
                     <div class="absolute bottom-0 w-full bg-black/60 text-white p-2 text-center font-bold">${item.title}</div>
                 `;
                 splideList.appendChild(slide);
@@ -164,12 +196,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 focus: 'center',     
                 gap: '1rem',         
                 drag: true,          
-                // ⭐️ تفعيل الأسهم (لتقليب يمين ويسار) ⭐️
                 arrows: true,       
                 pagination: true,    
                 direction: 'rtl',    
                 autoplay: true,      
                 interval: 4000,      
+                // 🟢 تفعيل التحميل الكسول لـ Splide 🟢
+                lazyLoad: 'sequential', 
+                height: '250px', // يفضل تثبيت الارتفاع لتجنب اهتزاز التخطيط
             }).mount();
 
         } catch (error) {
@@ -183,7 +217,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // تشغيل جميع الوظائف عند تحميل الصفحة
     checkBusinessHours();
     startCountdown();
-    fetchAndInitCarousel(); // ⭐️ إعادة تشغيل دالة Splide ⭐️
+    fetchAndInitCarousel();
     
 });
- 
