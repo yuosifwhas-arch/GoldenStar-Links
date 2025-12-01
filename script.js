@@ -58,7 +58,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     .replace(OPEN_SHADOW, 'shadow-none');
             }
         } else {
-            // حالة الفتح: تفعيل التوهج التلقائي لزر الطلب
              if (orderButtonWrapper) {
                 orderButtonWrapper.classList.add('animate-pulse');
                 setTimeout(() => {
@@ -73,9 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------------------------
     const startCountdown = () => {
         
-        // ⭐️⭐️⭐️ هذا هو السطر الذي تم تعديله ⭐️⭐️⭐️
-        // استخدمنا صيغة YYYY/MM/DD HH:MM:SS الموثوقة
-        const offerEndDate = new Date('2025/12/04 23:59:59').getTime(); 
+        // ⭐️⭐️⭐️ الحل الجذري هنا: بناء التاريخ يدوياً ⭐️⭐️⭐️
+        // (السنة, رقم الشهر -يبدأ من 0-, اليوم, الساعة 24H, الدقيقة, الثانية)
+        // هذا التاريخ هو: 4 ديسمبر 2025، الساعة 23:59:59 ليلاً
+        const offerEndDate = new Date(2025, 11, 4, 23, 59, 59).getTime(); 
+
+        // إضافة فحص أولي للعداد
+        if (isNaN(offerEndDate) || offerEndDate < new Date().getTime()) {
+             if (countdownElement) {
+                countdownElement.textContent = 'انتهى العرض!';
+                if(offersButtonWrapper) { offersButtonWrapper.removeAttribute('href'); }
+            }
+            return;
+        }
 
         const updateCounter = () => {
             const now = new Date().getTime();
@@ -85,7 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 clearInterval(countdownInterval);
                 if (countdownElement) {
                     countdownElement.textContent = 'انتهى العرض!';
-                    if(offersButtonWrapper) {
+                    if(offersButtonWrapper) { 
                          offersButtonWrapper.removeAttribute('href');
                          offersButtonWrapper.style.cursor = 'default';
                     }
@@ -107,7 +116,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         };
 
-        // تحديث العداد فوراً ثم كل ثانية
         updateCounter();
         const countdownInterval = setInterval(updateCounter, 1000);
     };
