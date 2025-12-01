@@ -1,12 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     
-    // عناصر زر اطلب الآن (للوظيفة 1: ساعات العمل والتوهج)
+    // العناصر الأساسية للتحكم
     const orderButtonWrapper = document.getElementById('orderButton'); 
     const orderButtonText = orderButtonWrapper ? orderButtonWrapper.querySelector('span') : null;
     const availableBadge = orderButtonWrapper ? orderButtonWrapper.querySelector('.available-badge') : null;
     const buttonVisuals = orderButtonWrapper ? orderButtonWrapper.querySelector('.btn-3d') : null;
     
-    // الألوان الافتراضية لزر الطلب
+    const countdownElement = document.getElementById('offer-countdown');
+    const offersButtonWrapper = document.getElementById('offersButton');
+    const splideList = document.getElementById('splide-list'); // عنصر قائمة الشرائح الذي سيمتلئ ديناميكياً
+    
+    // تعريف الألوان الافتراضية
     const OPEN_BG = 'bg-[#FFC700]';
     const OPEN_BORDER = 'border-[#C99B00]';
     const OPEN_TEXT = 'text-red-900';
@@ -14,10 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const CLOSED_BG = 'bg-gray-600';
     const CLOSED_BORDER = 'border-gray-800';
     const CLOSED_TEXT = 'text-white/80';
-    
-    // عناصر زر العروض (للوظيفة 2: العداد التنازلي)
-    const countdownElement = document.getElementById('offer-countdown');
-    const offersButtonWrapper = document.getElementById('offersButton');
     
     // ----------------------------------------------------------------------
     // الوظيفة 1: تحديد ساعات العمل (Smart Availability)
@@ -27,19 +27,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         const currentHour = now.getHours(); 
 
-        // 🚨 ساعات العمل: من 10 صباحاً إلى 2 صباحاً
+        // 🚨 ساعات العمل: من 10 صباحاً إلى 2 صباحاً (الساعة 2 صباحاً هي 2 في نظام 24 ساعة)
         const OPEN_HOUR = 10; 
         const CLOSE_HOUR = 2; 
 
         let isClosed;
         
         if (CLOSE_HOUR < OPEN_HOUR) { 
+            // حالة العمل من يوم لآخر (مثلاً من 10 صباحاً إلى 2 صباحاً)
             isClosed = currentHour >= CLOSE_HOUR && currentHour < OPEN_HOUR;
         } else {
+            // حالة العمل في نفس اليوم
             isClosed = currentHour < OPEN_HOUR || currentHour >= CLOSE_HOUR;
         }
 
         if (isClosed) {
+            // إغلاق الزر وتغيير مظهره
             if (orderButtonWrapper) {
                 orderButtonWrapper.removeAttribute('href');
                 orderButtonWrapper.style.cursor = 'default';
@@ -58,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     .replace(OPEN_SHADOW, 'shadow-none');
             }
         } else {
+             // فتح الزر وإضافة تأثير النبض المؤقت
              if (orderButtonWrapper) {
                 orderButtonWrapper.classList.add('animate-pulse');
                 setTimeout(() => {
@@ -72,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------------------------------------------------
     const startCountdown = () => {
         
-        // التاريخ: 4 ديسمبر 2025، الساعة 23:59:59 ليلاً (صيغة موثوقة)
+        // 🚨 التاريخ المحدد لانتهاء العرض (مثال: 4 ديسمبر 2025، الساعة 23:59:59)
         // (السنة, رقم الشهر -يبدأ من 0-, اليوم, الساعة 24H, الدقيقة, الثانية)
         const offerEndDate = new Date(2025, 11, 4, 23, 59, 59).getTime(); 
 
@@ -119,29 +123,68 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // ----------------------------------------------------------------------
-    // الوظيفة 3: تفعيل معرض الصور (Splide JS Initialization)
+    // الوظيفة 3: جلب البيانات وبناء معرض الصور (الحل الديناميكي عبر JSON)
     // ----------------------------------------------------------------------
-    const initImageCarousel = () => {
-        // فحص للتأكد من أن مكتبة Splide تم تحميلها بنجاح قبل التفعيل
-        if (typeof Splide !== 'undefined') {
+    const fetchAndInitCarousel = async () => {
+        // التحقق من وجود مكتبة Splide وعنصر القائمة في HTML
+        if (typeof Splide === 'undefined' || !splideList) return;
+
+        try {
+            // جلب البيانات من ملف menu.json
+            const response = await fetch('menu.json');
+            if (!response.ok) {
+                // عرض رسالة في حال فشل جلب الملف
+                splideList.innerHTML = '<li class="splide__slide text-center text-red-400 p-4">⚠️ فشل تحميل قائمة الطعام (تأكد من وجود ملف menu.json).</li>';
+                console.error("Failed to fetch menu data:", response.statusText);
+                return;
+            }
+            const data = await response.json();
+            const menuItems = data.menuItems || [];
+
+            // مسح أي محتوى قديم
+            splideList.innerHTML = ''; 
+
+            if (menuItems.length === 0) {
+                 splideList.innerHTML = '<li class="splide__slide text-center text-gray-400 p-4">لا توجد أطباق لعرضها حالياً.</li>';
+                 return;
+            }
+
+            // بناء شرائح Splide ديناميكياً
+            menuItems.forEach(item => {
+                const slide = document.createElement('li');
+                slide.className = 'splide__slide rounded-xl overflow-hidden shadow-2xl relative'; // إضافة relative للـ absolute في الـ div
+                slide.innerHTML = `
+                    <img src="${item.imagePath}" alt="${item.title}" class="w-full h-48 object-cover transition-transform duration-500 hover:scale-[1.05]">
+                    <div class="absolute bottom-0 w-full bg-black/60 text-white p-2 text-center font-bold">${item.title}</div>
+                `;
+                splideList.appendChild(slide);
+            });
+
+            // تفعيل Splide بعد بناء الشرائح
             new Splide('#image-carousel', {
-                type: 'loop',        // تكرار الحلقات
-                perPage: 1,          // صورة واحدة لكل شريحة
+                type: 'loop',        
+                perPage: 1,          
                 focus: 'center',     
                 gap: '1rem',         
-                drag: true,          // تفعيل السحب
-                arrows: false,       // إخفاء الأسهم
-                pagination: true,    // إظهار النقاط
-                direction: 'rtl',    // دعم اللغة العربية
-                autoplay: true,      // تشغيل تلقائي
-                interval: 4000,      // تغيير الشريحة كل 4 ثوانٍ
+                drag: true,          
+                arrows: false,       
+                pagination: true,    
+                direction: 'rtl',    
+                autoplay: true,      
+                interval: 4000,      
             }).mount();
+
+        } catch (error) {
+            console.error('Error processing menu data or initializing Splide:', error);
+            if (splideList) {
+                splideList.innerHTML = '<li class="splide__slide text-center text-red-400 p-4">حدث خطأ غير متوقع في عرض الصور.</li>';
+            }
         }
     };
 
     // تشغيل جميع الوظائف عند تحميل الصفحة
     checkBusinessHours();
     startCountdown();
-    initImageCarousel(); 
+    fetchAndInitCarousel(); // ⭐️ هذا السطر هو المسؤول عن بناء المعرض وجلبه من JSON ⭐️
     
 });
