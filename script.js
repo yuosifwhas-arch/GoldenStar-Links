@@ -27,14 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         const currentHour = now.getHours(); 
 
-        // 🚨 ساعات العمل: من 10 صباحاً إلى 2 صباحاً (الساعة 2 صباحاً هي 2 في نظام 24 ساعة)
+        // 🚨 ساعات العمل: من 10 صباحاً (10) إلى 2 صباحاً (2)
         const OPEN_HOUR = 10; 
         const CLOSE_HOUR = 2; 
 
         let isClosed;
         
         if (CLOSE_HOUR < OPEN_HOUR) { 
-            // حالة العمل من يوم لآخر (مثلاً من 10 صباحاً إلى 2 صباحاً)
+            // حالة العمل من يوم لآخر
             isClosed = currentHour >= CLOSE_HOUR && currentHour < OPEN_HOUR;
         } else {
             // حالة العمل في نفس اليوم
@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
              // فتح الزر وإضافة تأثير النبض المؤقت
              if (orderButtonWrapper) {
+                // يمكنك وضع رابط الطلب الحقيقي هنا
+                // orderButtonWrapper.setAttribute('href', 'https://your-ordering-link.com'); 
                 orderButtonWrapper.classList.add('animate-pulse');
                 setTimeout(() => {
                     orderButtonWrapper.classList.remove('animate-pulse');
@@ -77,7 +79,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const startCountdown = () => {
         
         // 🚨 التاريخ المحدد لانتهاء العرض (مثال: 4 ديسمبر 2025، الساعة 23:59:59)
-        // (السنة, رقم الشهر -يبدأ من 0-, اليوم, الساعة 24H, الدقيقة, الثانية)
         const offerEndDate = new Date(2025, 11, 4, 23, 59, 59).getTime(); 
 
         if (isNaN(offerEndDate) || offerEndDate < new Date().getTime()) {
@@ -126,14 +127,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // الوظيفة 3: جلب البيانات وبناء معرض الصور (الحل الديناميكي عبر JSON)
     // ----------------------------------------------------------------------
     const fetchAndInitCarousel = async () => {
-        // التحقق من وجود مكتبة Splide وعنصر القائمة في HTML
         if (typeof Splide === 'undefined' || !splideList) return;
 
         try {
             // جلب البيانات من ملف menu.json
             const response = await fetch('menu.json');
             if (!response.ok) {
-                // عرض رسالة في حال فشل جلب الملف
                 splideList.innerHTML = '<li class="splide__slide text-center text-red-400 p-4">⚠️ فشل تحميل قائمة الطعام (تأكد من وجود ملف menu.json).</li>';
                 console.error("Failed to fetch menu data:", response.statusText);
                 return;
@@ -141,20 +140,19 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
             const menuItems = data.menuItems || [];
 
-            // مسح أي محتوى قديم
             splideList.innerHTML = ''; 
 
             if (menuItems.length === 0) {
-                 splideList.innerHTML = '<li class="splide__slide text-center text-gray-400 p-4">لا توجد أطباق لعرضها حالياً.</li>';
+                 splideList.innerHTML = '<li class="splide__slide text-center text-gray-400 p-4">لا توجد أطباق لعرضها حالياً في ملف menu.json.</li>';
                  return;
             }
 
             // بناء شرائح Splide ديناميكياً
             menuItems.forEach(item => {
                 const slide = document.createElement('li');
-                slide.className = 'splide__slide rounded-xl overflow-hidden shadow-2xl relative'; // إضافة relative للـ absolute في الـ div
+                slide.className = 'splide__slide rounded-xl overflow-hidden shadow-2xl relative bg-black/50'; 
                 slide.innerHTML = `
-                    <img src="${item.imagePath}" alt="${item.title}" class="w-full h-48 object-cover transition-transform duration-500 hover:scale-[1.05]">
+                    <img src="${item.imagePath}" alt="${item.title}" class="w-full h-48 object-contain transition-transform duration-500 hover:scale-[1.05]">
                     <div class="absolute bottom-0 w-full bg-black/60 text-white p-2 text-center font-bold">${item.title}</div>
                 `;
                 splideList.appendChild(slide);
@@ -185,6 +183,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // تشغيل جميع الوظائف عند تحميل الصفحة
     checkBusinessHours();
     startCountdown();
-    fetchAndInitCarousel(); // ⭐️ هذا السطر هو المسؤول عن بناء المعرض وجلبه من JSON ⭐️
+    fetchAndInitCarousel();
     
 });
