@@ -19,6 +19,14 @@
             padding-bottom: 3rem;
             -webkit-tap-highlight-color: transparent;
         }
+        /* إخفاء شريط التمرير */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
         
         /* تأثير الأزرار ثلاثية الأبعاد */
         .btn-3d {
@@ -126,7 +134,7 @@
                             </div>
                             <span class="text-xl font-black tracking-wide text-shadow-custom">اطلب الآن (توصيل سريع 🛵)</span>
                         </div>
-                        <div class="absolute top-[-10px] right-2 bg-red-600 text-white text-xs font-black px-3 py-1 rounded-full transform rotate-[3deg] shadow-xl border border-white/50">
+                        <div class="available-badge absolute top-[-10px] right-2 bg-red-600 text-white text-xs font-black px-3 py-1 rounded-full transform rotate-[3deg] shadow-xl border border-white/50">
                             متاح
                         </div>
                         <div class="bg-black/10 p-1.5 rounded-full opacity-80 group-hover:opacity-100 transition-all rtl:rotate-180">
